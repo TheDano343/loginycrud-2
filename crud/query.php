@@ -2,8 +2,11 @@
 
 require '../conexion.php';
 
-$sql = "select * from login
- inner join carreras on login.id_Carrera = carreras.id_Carreras";//este query sirve para visualizar todos los datos
+// $sql = "select * from login
+//  inner join carreras on login.id_Carrera = carreras.id_Carreras";
+$sql = "SELECT *
+FROM login
+LEFT JOIN carreras ON login.id_Carrera = carreras.id_Carreras";//este query sirve para visualizar todos los datos
 // inner join : donde el producto y los productos en donde productos va a traer los id_Carrera en id_Carreras de la tabla Carreras
 
 
@@ -13,3 +16,4 @@ $sql = "select * from login
 $query = mysqli_query($conexion, $sql);
 
 ?>
+

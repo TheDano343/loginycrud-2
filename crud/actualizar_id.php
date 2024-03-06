@@ -6,7 +6,7 @@ $id = $_GET['id_Usuario'];// Get : Para obtener la informacion
 
 //este query sirve para visualizar los datos y traer un id en especifico
 // $sql = "select * from login where id_Usuario='$id'";
-$sql = "select * from login where id_Usuario =".$_REQUEST['id_Usuario'];// $_REQUEST : nos permite capturar variables enviadas desde formularios con los métodos GET o POST.
+$sql = "select * from login where id_Usuario =".$_GET['id_Usuario'];// $_REQUEST : nos permite capturar variables enviadas desde formularios con los métodos GET o POST.
 $resultado = $conexion->query($sql);
 
 // fetch_assoc : es tomar la próxima fila del conjunto de resultados y devolverla como un array asociativo.

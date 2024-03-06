@@ -1,7 +1,7 @@
 <?php
 require 'conexion.php';
 
-// Validamos que el formulario y que el boton login haya sido presionado
+// Validamos que el formulario y que el boton login haya sido presionado, todo esto si isset tiene el name de button
 if(isset($_POST['registro']))
 {
     
@@ -9,7 +9,15 @@ if(isset($_POST['registro']))
     //correo, contrasenia: son los campos a los cuales se les va a insertar
     $usuario = $_POST['correo'];
     $contrasena = $_POST['contrasenia'];
-    
+
+    $sql_verificar = "SELECT correo FROM login where correo = '$usuario'";
+                      
+    $verificar_registro = mysqli_query($conexion, $sql_verificar);
+
+    if(mysqli_num_rows($verificar_registro) > 0)
+    {
+        echo "El correo ya existe";
+    }else{
     //$usuario y $contrasena:  es el usuario y contraseña el cual se le esta registrando
     //$contrasenia_fuerte: Esta variable encriptara la contraseña 
     //password_hash(): crea un nuevo hash de contraseña usando un algoritmo de hash fuerte de único sentido
@@ -33,5 +41,6 @@ if(isset($_POST['registro']))
             echo "Se inserto incorrectamente los datos."."<br>";
             echo "Error: " . $sql . "<br>" . mysqli_error($conexion);//devuelve el error
         }
+    }
 }   
 ?>

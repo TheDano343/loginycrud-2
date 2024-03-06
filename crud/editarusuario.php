@@ -12,7 +12,7 @@ $query = mysqli_query($conexion, $sql);
 
 // Y al sucede el query este enviara al index
 if($query){
-    Header("Location: index.php");
+    Header("Location: usuarios.php");
 };
 
 ?>

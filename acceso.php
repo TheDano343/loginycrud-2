@@ -1,5 +1,9 @@
 <?php
+
 require 'conexion.php';
+
+session_start();
+
 // Verificamos si se ha enviado el formulario y el botón de inicio de sesión ha sido presionado
 if(isset($_POST['login'])) {
 
@@ -39,9 +43,12 @@ if(isset($_POST['login'])) {
             //$fila['contrasenia'] específicamente representa la contraseña almacenada para ese usuario en la columna de la base de datos llamada "contrasenia".
 
             //En resumen, password_verify($contrasena, $fila['contrasenia']) es la forma en que se verifica si la contraseña ingresada por el usuario es correcta en comparación con la contraseña almacenada en la base de datos para ese usuario específico.
-            if(password_verify($contrasena, $fila['contrasenia'])) {
+            if(password_verify($contrasena, $fila['contrasenia'])) 
+            {
+                $_SESSION['correo'] = $usuario;
+
                 // echo "Inicio de sesión exitoso. ¡Bienvenido!";
-                header("Location: crud/index.php");
+                header("Location: crud/usuarios.php");
 
             } else {
                 echo "Contraseña incorrecta.";

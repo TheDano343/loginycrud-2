@@ -23,45 +23,37 @@ require 'actualizar_id.php';
         </div>
         
         <!-- De esta manera se puede seleccionar opciones -->
-        <select class="form-select mb-3" name="carreras" arial-label="Default select example">
-            <option selected disabled>--Selecciona una carrera--</option>
-        <?php
-        require '../conexion.php';
-        
-        // Realiza la primera consulta para obtener el registro seleccionado
-        $sql = "select * from carreras where id_Carreras =" . $row['id_Carrera'];//este va a traer el id_Carrera de id_Carreras
-       
-        //se utiliza para ejecutar una consulta SQL en una base de datos y almacenar los resultados de esa consulta.
-        // query() : Este es un método de la clase de conexión a la base de datos que se utiliza para ejecutar una consulta SQL en la base de datos.
-        $resultado = $conexion->query($sql);
-        
-        // se utiliza para recuperar la próxima fila de resultados de una consulta a una base de datos
-        // fetch_assoc : es tomar la próxima fila del conjunto de resultados y devolverla como un array asociativo.
-        // obtienes la siguiente fila de resultados de la consulta y almacenas sus datos en la variable.
-        $registro_seleccionado = $resultado->fetch_assoc();
-          
-        //Mostrar la opción seleccionada
-        echo "<option selected value='" . $registro_seleccionado['id_Carreras'] . "'>" . $registro_seleccionado['Nombre'] . "</option>";
+        <select class="form-select mb-3" name="carreras" aria-label="Default select example">
+    <option value="" disabled selected>-- Selecciona una carrera --</option>
+    <?php
+    require '../conexion.php';
 
-        // <----------Para traer los otros registros para cuando se requiera editar-------->
-        //Esta línea de código crea una consulta SQL para seleccionar todas las filas y columnas de la tabla llamada "carreras" en la base de datos
-        //$conexion: Se conecta a la base de datos 
-        //$query : Y ejecuta el query
-        $sql2 = "SELECT * FROM carreras";//este buscatodos los registros de carreras
-        $resultado2 = $conexion->query($sql2);
+    
+    // <----------Para traer los otros registros para cuando se requiera editar-------->
+    // Consulta para seleccionar todas las carreras
+    //Esta línea de código crea una consulta SQL para seleccionar todas las filas y columnas de la tabla llamada "carreras" en la base de datos
+    //$conexion: Se conecta a la base de datos 
+    //$query : Y ejecuta el query
+    $sql2 = "SELECT * FROM carreras";
+    $resultado2 = $conexion->query($sql2);
 
-        //while : es una estructura de control de flujo que permite repetir un bloque de código mientras se cumpla una determinada condición.
-        // fetch_assoc : es tomar la próxima fila del conjunto de resultados y devolverla como un array asociativo.
-        while ($fila = $resultado2->fetch_assoc()) 
-        {
-            // Esta línea verifica si el ID de la carrera de la fila actual ($fila['id_Carreras']) es diferente al ID de la carrera que ya está seleccionada ($registro_seleccionado['id_Carreras']). Esto se hace para evitar mostrar dos veces la misma opción en un menú desplegable
-            if ($fila['id_Carreras'] != $registro_seleccionado['id_Carreras'])
-            {
-            echo "<option value='" . $fila['id_Carreras'] . "'>" . $fila['Nombre'] . "</option>"; 
-            } 
-        }
-        ?>
-        </select>
+    //while : es una estructura de control de flujo que permite repetir un bloque de código mientras se cumpla una determinada condición.
+    // fetch_assoc : es tomar la próxima fila del conjunto de resultados y devolverla como un array asociativo.
+    while ($fila = $resultado2->fetch_assoc()) {
+        // Verificar si la carrera actual coincide con la seleccionada
+        // $selected : es una variable que se utiliza para determinar si una opción debe estar seleccionada en un elemento 
+        // ($fila['id_Carreras'] == $row['id_Carrera']) : es una expresión que compara el valor de la columna id_Carreras en la fila actual del bucle while (representada por $fila) con el valor de la columna id_Carrera de otra fuente de datos (quizás la fila actual del formulario o la base de datos, representada por $row). Si estos valores son iguales, significa que esta opción debe estar seleccionada.
+        // ? "selected" : es un operador ternario que asigna "selected" a la variable $selected si la condición anterior es verdadera, es decir, si los valores de id_Carreras y id_Carrera son iguales. De lo contrario, asigna una cadena vacía "" a la variable $selected.
+        $selected = ($fila['id_Carreras'] == $row['id_Carrera']) ? "selected" : "";//
+
+        // "<option value='" . $fila['id_Carreras'] . "' $selected>" . $fila['Nombre'] . "</option>" : es una cadena de texto HTML que representa una opción dentro de un elemento <select>.
+        //"value='" . $fila['id_Carreras'] . "'" : define el atributo value de la opción, que representa el valor que se enviará al servidor cuando se seleccione esta opción. El valor se obtiene de la columna id_Carreras en la fila actual del bucle while.
+        //$selected : este es el atributo selected que determina si esta opción debe estar seleccionada. Si la variable $selected tiene el valor "selected", esta opción se marcará como seleccionada.
+        //$fila['Nombre'] : esto imprime el texto que se mostrará al usuario en la opción. Este valor se obtiene de la columna Nombre en la fila actual del bucle while.
+        echo "<option value='" . $fila['id_Carreras'] . "' $selected>" . $fila['Nombre'] . "</option>";
+    }
+    ?>
+</select>
         <br>
         <input type="submit" class="btn btn-primary" value="Actualizar">
     </form>
